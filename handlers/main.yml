@@ -1,0 +1,5 @@
+---
+
+- name: restart zeppelin
+  service: name=zeppelin 
+           state=restarted

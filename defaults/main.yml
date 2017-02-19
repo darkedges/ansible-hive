@@ -1,0 +1,16 @@
+hive_version: 2.1.1
+
+hive_user: "hive"        
+hive_user_shell: "/usr/bin/bash"  
+hive_user_groups: []      
+
+hive_mirror: http://apache.mirror.digitalpacific.com.au
+hive_src_file: "apache-hive-{{ hive_version }}-bin.tar.gz"
+hive_url: "{{ hive_mirror }}/hive/hive-{{ hive_version }}/{{ hive_src_file }}"
+
+hive_usr_parent_dir: "/usr/lib"  
+hive_usr_dir: "{{ hive_usr_parent_dir }}/hive"   
+hive_lib_dir: "/var/lib/hive"
+hive_log_dir: "/var/log/hive"
+hive_run_dir: "/run/hive"
+hive_conf_dir: "/etc/hive"
