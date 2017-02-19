@@ -2,61 +2,61 @@
 
 - debug: msg="Hive install"
 
-# - name: Create service account for Hive
-#   user: name={{ hive_user }}
-#         system=yes
-#         home={{ hive_lib_dir }}
-#         shell={{ hive_user_shell }}
-#         state=present
-#         groups="{{ hive_user_groups | join(',') }}"
+- name: Create service account for Hive
+  user: name={{ hive_user }}
+        system=yes
+        home={{ hive_lib_dir }}
+        shell={{ hive_user_shell }}
+        state=present
+        groups="{{ hive_user_groups | join(',') }}"
 
-# - name: Ensure Spark log and run directories exist
-#   file: path="{{ item }}"
-#         owner={{ hive_user }}
-#         group={{ hive_user }}
-#         mode=0755
-#         state=directory
-#   with_items:
-#     - "{{ hive_log_dir }}"
-#     - "{{ hive_run_dir }}"
+- name: Ensure Spark log and run directories exist
+  file: path="{{ item }}"
+        owner={{ hive_user }}
+        group={{ hive_user }}
+        mode=0755
+        state=directory
+  with_items:
+    - "{{ hive_log_dir }}"
+    - "{{ hive_run_dir }}"
 
-# - name: Download Hive distribution
-#   get_url: url="{{ hive_url }}"
-#            dest="/tmp/{{ hive_src_file }}"
-#            checksum="md5:782cd36d0dc710ffbf0ece41081b2b85"
+- name: Download Hive distribution
+  get_url: url="{{ hive_url }}"
+           dest="/tmp/{{ hive_src_file }}"
+           checksum="md5:782cd36d0dc710ffbf0ece41081b2b85"
 
-# - name: Extract Hive distribution
-#   unarchive: src="/tmp/{{ hive_src_file }}"
-#              dest="{{ hive_usr_parent_dir }}"
-#              copy=no
-#              creates="{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin"
-#              owner="{{ hive_user }}"
-#              group="{{ hive_user }}"
+- name: Extract Hive distribution
+  unarchive: src="/tmp/{{ hive_src_file }}"
+             dest="{{ hive_usr_parent_dir }}"
+             copy=no
+             creates="{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin"
+             owner="{{ hive_user }}"
+             group="{{ hive_user }}"
 
-# - name: bug in Extract Hive distribution
-#   file: path="{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin"
-#         state=directory
-#         mode=0755
-#         owner="{{ hive_user }}"
-#         group="{{ hive_user }}"
-#         recurse="yes"
+- name: bug in Extract Hive distribution
+  file: path="{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin"
+        state=directory
+        mode=0755
+        owner="{{ hive_user }}"
+        group="{{ hive_user }}"
+        recurse="yes"
 
-# - name: Ensure Hive configuration directory exists
-#   file: path="{{ hive_conf_dir }}"
-#         state=directory
+- name: Ensure Hive configuration directory exists
+  file: path="{{ hive_conf_dir }}"
+        state=directory
 
-# - name: Setup Hive distribution symlinks
-#   file: src="{{ item.src }}"
-#         dest="{{ item.dest }}"
-#         state=link
-#   with_items:
-#     - { src: "{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin", dest: "{{ hive_usr_dir }}" }
-#     - { src: "{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin/conf", dest: "{{ hive_conf_dir }}/conf" }
+- name: Setup Hive distribution symlinks
+  file: src="{{ item.src }}"
+        dest="{{ item.dest }}"
+        state=link
+  with_items:
+    - { src: "{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin", dest: "{{ hive_usr_dir }}" }
+    - { src: "{{ hive_usr_parent_dir }}/apache-hive-{{ hive_version }}-bin/conf", dest: "{{ hive_conf_dir }}/conf" }
 
-# - name: Create Hive Env configuration
-#   template: src=etc/hive/conf/hive-env.sh.j2
-#             dest="{{ hive_conf_dir }}/conf/hive-env.sh"
-#             mode=0755
+- name: Create Hive Env configuration
+  template: src=etc/hive/conf/hive-env.sh.j2
+            dest="{{ hive_conf_dir }}/conf/hive-env.sh"
+            mode=0755
 
 # - name: Create Hive Systemd Service File
 #   template: src=etc/systemd/system/hive.service.j2
